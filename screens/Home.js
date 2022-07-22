@@ -10,13 +10,13 @@ import RestaurantItems, {
 } from '../components/home/RestaurantItems';
 import BottomTabs from '../components/home/BottomTabs';
 
-export default function Home() {
+const YELP_API_KEY =
+  'Z4ZZBnVkYRBPYT1BhI_I1CbpKc4-wKon23xLow23ebOAKgtcqezg_hkxgGkAM7ECzTWfmgfBe4S_jWcBdyX5Hpne68PhpyMbtPBkcmO48_5p9mXKGrUMNf6DlEDUYnYx';
+
+export default function Home({ navigation }) {
   const [restaurantData, setRestaurantData] = useState(localRestaurants);
   const [city, setCity] = useState('NewYorkCity');
   const [activeTab, setActiveTab] = useState('Delivery');
-
-  const YELP_API_KEY =
-    'Z4ZZBnVkYRBPYT1BhI_I1CbpKc4-wKon23xLow23ebOAKgtcqezg_hkxgGkAM7ECzTWfmgfBe4S_jWcBdyX5Hpne68PhpyMbtPBkcmO48_5p9mXKGrUMNf6DlEDUYnYx';
 
   const getRestaurantsFromYelp = () => {
     const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=${city}`;
@@ -50,7 +50,10 @@ export default function Home() {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Categories />
-        <RestaurantItems restaurantData={restaurantData} />
+        <RestaurantItems
+          restaurantData={restaurantData}
+          navigation={navigation}
+        />
       </ScrollView>
       <Divider width={1} />
       <BottomTabs />

@@ -1,16 +1,30 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 
-const image =
-  'https://timhomestay.vn/wp-content/uploads/2021/01/ppp-why-wont-anyone-rescue-restaurants-ft-blog0420.jpg';
-const title = 'Farmhouse Kitchen Thai Cuisine';
-const description = 'Thai • Comfort Food • $$ • 🎫 • 4⭐️ (2913+)';
+const yelpRestaurantInfo = {
+  name: 'Farmhouse Kitchen Thai Cuisine',
+  image:
+    'https://timhomestay.vn/wp-content/uploads/2021/01/ppp-why-wont-anyone-rescue-restaurants-ft-blog0420.jpg',
+  price: '$$',
+  reviews: '1500',
+  rating: 4.5,
+  categories: [{ title: 'Thai' }, { title: 'Comfort Food' }],
+};
 
-export default function About() {
+export default function About(props) {
+  const { name, image, price, reviews, rating, categories } =
+    props.route.params;
+
+  const formattedCategories = categories.map((cat) => cat.title).join(' • ');
+
+  const description = `${formattedCategories} ${
+    price ? ' • ' + price : ''
+  } • 🎫 • ${rating} ⭐️ (${reviews})`;
+
   return (
     <View>
       <RestaurantImage image={image} />
-      <RestaurantTitle title={title} />
+      <RestaurantName name={name} />
       <RestaurantDescription description={description} />
     </View>
   );
@@ -20,7 +34,7 @@ const RestaurantImage = ({ image }) => (
   <Image source={{ uri: image }} style={{ width: '100%', height: 180 }} />
 );
 
-const RestaurantTitle = ({ title }) => (
+const RestaurantName = ({ name }) => (
   <Text
     style={{
       fontSize: 29,
@@ -29,7 +43,7 @@ const RestaurantTitle = ({ title }) => (
       marginHorizontal: 15,
     }}
   >
-    {title}
+    {name}
   </Text>
 );
 

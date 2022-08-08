@@ -4,6 +4,10 @@ import {
   collection,
   addDoc,
   serverTimestamp,
+  getDocs,
+  orderBy,
+  limit,
+  query,
 } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -18,4 +22,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export { db, collection, addDoc, serverTimestamp };
+export {
+  db,
+  collection,
+  addDoc,
+  serverTimestamp,
+  getDocs,
+  orderBy,
+  limit,
+  query,
+};

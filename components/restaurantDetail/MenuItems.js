@@ -4,37 +4,6 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { Divider } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 
-const foods = [
-  {
-    title: 'Lasagna',
-    description: 'With butter lettuce, tomato and sauce bechamel',
-    price: '$13.50',
-    image:
-      'https://chefjob.vn/wp-content/uploads/2020/02/lasagna-mang-huong-vi-tinh-te.jpg',
-  },
-  {
-    title: 'Tandoori Chicken',
-    description: 'Amazing Indian dish with tenderloin chicken off the sizzles',
-    price: '$19.20',
-    image:
-      'https://www.spiceindiaonline.com/wp-content/uploads/2021/05/Tandoori-Chicken-20-500x400.jpg',
-  },
-  {
-    title: 'Chilaquiles',
-    description: 'Chilaquiles with cheese and sauce. A delicious mexican dish',
-    price: '$14.50',
-    image:
-      'https://i2.wp.com/chilipeppermadness.com/wp-content/uploads/2020/11/Chilaquales-Recipe-Chilaquiles-Rojos-1.jpg',
-  },
-  {
-    title: 'Chicken Caesar Salad',
-    description: 'One can never go wrong with a chicken caesar salad. Healthy',
-    price: '$21.50',
-    image:
-      'https://www.recipetineats.com/wp-content/uploads/2016/05/Caesar-Salad_7-SQ.jpg',
-  },
-];
-
 const styles = StyleSheet.create({
   menuItemStyle: {
     flexDirection: 'row',
@@ -43,11 +12,16 @@ const styles = StyleSheet.create({
   },
   titleStyle: {
     fontSize: 19,
-    fontWeight: '500',
+    fontWeight: '600',
   },
 });
 
-export default function MenuItem({ restaurantName }) {
+export default function MenuItem({
+  restaurantName,
+  foods,
+  hideCheckbox,
+  marginLeft,
+}) {
   const dispatch = useDispatch();
   const selectItem = (item, checkboxValue) =>
     dispatch({
@@ -72,14 +46,18 @@ export default function MenuItem({ restaurantName }) {
       {foods.map((food, index) => (
         <View key={index}>
           <View style={styles.menuItemStyle}>
-            <BouncyCheckbox
-              iconStyle={{ borderColor: 'lightgray', borderRadius: 0 }}
-              fillColor="green"
-              onPress={(checkboxValue) => selectItem(food, checkboxValue)}
-              isChecked={isFoodInCart(food, cartItems)}
-            />
+            {hideCheckbox ? (
+              <></>
+            ) : (
+              <BouncyCheckbox
+                iconStyle={{ borderColor: 'lightgray', borderRadius: 0 }}
+                fillColor="green"
+                onPress={(checkboxValue) => selectItem(food, checkboxValue)}
+                isChecked={isFoodInCart(food, cartItems)}
+              />
+            )}
             <FoodInfo food={food} />
-            <FoodImage food={food} />
+            <FoodImage food={food} marginLeft={marginLeft ? marginLeft : 0} />
           </View>
           <Divider
             width={0.5}
@@ -100,11 +78,16 @@ const FoodInfo = ({ food }) => (
   </View>
 );
 
-const FoodImage = ({ food }) => (
+const FoodImage = ({ food, marginLeft }) => (
   <View>
     <Image
       source={{ uri: food.image }}
-      style={{ width: 100, height: 100, borderRadius: 8 }}
+      style={{
+        width: 100,
+        height: 100,
+        borderRadius: 8,
+        marginLeft: marginLeft,
+      }}
     />
   </View>
 );
